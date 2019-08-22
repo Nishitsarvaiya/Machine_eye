@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,700,800,900" rel="stylesheet">
+    <script rel="javascript" type="text/javascript" href="js/jquery-1.11.3.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}" /> -->
+    <title>Document</title>
+    <style media="screen">
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body, html {
+        width: 100vw;
+        height: 100vh;
+        background: url("../static/images/background-image.png");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    .title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 2rem;
+        color: #EEE3AD;
+        position: absolute;
+        top: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .video-player {
+        background: #F7F0F0;
+        width: 1040px;
+        height: 524px;
+        position: absolute;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+        border: none;
+        z-index: 1
+    }
+
+    .caption-box {
+        position: absolute;
+        width: 1040px;
+        height: 60px;
+        top: 564px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #F7F0F0;
+        box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+        z-index: 2
+    }
+
+    #caption {
+        margin: 1rem;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 20px;
+        line-height: normal;
+        color: #252525;
+    }
+
+    .btn-group {
+        position: absolute;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    button {
+        /* width: 200px;
+        height: 60px; */
+        padding: 16px 32px;
+        margin: 0 20px;
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 1.2rem;
+        line-height: normal;
+        color: #F7F0F0;
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
+        border: none;
+        text-decoration: none;
+        cursor: pointer;
+        transition: 100ms ease-in-out;
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    button:hover {
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .choose-btn {
+        background: #E25A0E;
+    }
+    .choose-btn:active {
+        background: #AB440B;
+    }
+
+    .live-btn {
+        background: #FF4215;
+    }
+    .live-btn:active {
+        background: #C93511;
+    }
+
+    .rect {
+     position: absolute;
+     width: 1000px;
+     height: 524px;
+     background: #000000;
+     top: 100px;
+     left: 50%;
+     transform: translateX(-50%);
+    }
+
+    </style>
+</head>
+<body>
+        <div class="title">MACHINE EYE 1.0</div>
+        <img class="video-player" src="" id="videoPlayer"></img>
+        <div class="caption-box">
+         <p id="caption">{{ ans }}</p>
+        </div>
+        <div class="btn-group">
+            <button
+                class="choose-btn"
+                id="play-btn"
+                >PLAY</button>
+            <button
+
+                class="live-btn"
+                id="stop-btn"
+                >STOP</button>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+         const videoPlayer = document.getElementById('videoPlayer');
+         const playBtn = document.getElementById('play-btn');
+         const stopBtn = document.getElementById('stop-btn');
+
+         playBtn.addEventListener('click', function() {
+           videoPlayer.src = "{{ url_for('video_feed') }}";
+
+           generate_caption();
+
+         });
+
+         stopBtn.addEventListener('click', function() {
+           videoPlayer.src = "";
+         });
+
+         function generate_caption() {
+          jQuery.ajax({
+           url: "/caption",
+           type: "get",
+           success: function(response) {
+             $("#caption").text(response.ans);
+           },
+           error: function(xhr) {
+            alert("Error");
+           }
+          });
+         }
+
+        </script>
+</body>
+</html>

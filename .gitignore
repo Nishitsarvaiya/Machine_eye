@@ -1,0 +1,5 @@
+weights-glove-15.hdf5
+_pycache_
+*cpython*
+*.avi
+*.mp4
